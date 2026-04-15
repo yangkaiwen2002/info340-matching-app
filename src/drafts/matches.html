@@ -1,0 +1,130 @@
+import { useState } from 'react';
+import FilterBar from '../components/FilterBar';
+import UserCard from '../components/UserCard';
+
+export default function Matches(props) {
+  const { users, savedIds, onToggleSave } = props;
+
+  const [keyword, setKeyword] = useState('');
+  const [connectionType, setConnectionType] = useState('all');
+  const [selectedInterests, setSelectedInterests] = useState([]);
+  const [selectedAvailability, setSelectedAvailability] = useState([]);
+
+  const interestOptions = [
+    'coding',
+    'design',
+    'skiing',
+    'basketball',
+    'music',
+    'travel',
+    'research',
+    'gaming'
+  ];
+
+  const availabilityOptions = [
+    'weekday mornings',
+    'weekday afternoons',
+    'weekday evenings',
+    'weekends'
+  ];
+
+  function handleToggleInterest(interest) {
+    const alreadySelected = selectedInterests.includes(interest);
+
+    if (alreadySelected) {
+      const nextInterests = selectedInterests.filter((item) => item !== interest);
+      setSelectedInterests(nextInterests);
+    } else {
+      const nextInterests = [...selectedInterests, interest];
+      setSelectedInterests(nextInterests);
+    }
+  }
+
+  function handleToggleAvailability(time) {
+    const alreadySelected = selectedAvailability.includes(time);
+
+    if (alreadySelected) {
+      const nextAvailability = selectedAvailability.filter((item) => item !== time);
+      setSelectedAvailability(nextAvailability);
+    } else {
+      const nextAvailability = [...selectedAvailability, time];
+      setSelectedAvailability(nextAvailability);
+    }
+  }
+
+  function handleClear() {
+    setKeyword('');
+    setConnectionType('all');
+    setSelectedInterests([]);
+    setSelectedAvailability([]);
+  }
+
+  const filteredUsers = users.filter((user) => {
+    const loweredKeyword = keyword.toLowerCase();
+
+    const matchesKeyword =
+      user.name.toLowerCase().includes(loweredKeyword) ||
+      user.interests.some((interest) =>
+        interest.toLowerCase().includes(loweredKeyword)
+      );
+
+    const matchesConnectionType =
+      connectionType === 'all' || user.connectionType === connectionType;
+
+    const matchesInterests =
+      selectedInterests.length === 0 ||
+      selectedInterests.some((interest) => user.interests.includes(interest));
+
+    const matchesAvailability =
+      selectedAvailability.length === 0 ||
+      selectedAvailability.some((time) => user.availability.includes(time));
+
+    return (
+      matchesKeyword &&
+      matchesConnectionType &&
+      matchesInterests &&
+      matchesAvailability
+    );
+  });
+
+  const userCards = filteredUsers.map((user) => {
+    const isSaved = savedIds.includes(user.id);
+
+    return (
+      <UserCard
+        key={user.id}
+        user={user}
+        isSaved={isSaved}
+        onToggleSave={onToggleSave}
+      />
+    );
+  });
+
+  return (
+    <section>
+      <h2>Browse Matches</h2>
+
+      <FilterBar
+        keyword={keyword}
+        onKeyword={setKeyword}
+        connectionType={connectionType}
+        onConnectionType={setConnectionType}
+        selectedInterests={selectedInterests}
+        onToggleInterest={handleToggleInterest}
+        selectedAvailability={selectedAvailability}
+        onToggleAvailability={handleToggleAvailability}
+        interestOptions={interestOptions}
+        availabilityOptions={availabilityOptions}
+        onClear={handleClear}
+      />
+
+      <p className="results-text">
+        Showing {filteredUsers.length} match{filteredUsers.length === 1 ? '' : 'es'}
+      </p>
+
+      <div className="card-grid">
+        {userCards}
+      </div>
+    </section>
+  );
+}

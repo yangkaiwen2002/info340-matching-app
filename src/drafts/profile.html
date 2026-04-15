@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Partner Match | Profile</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="index.html">
+        <div class="logo" aria-hidden="true"></div>
+        <div>
+          <h1>Partner Match</h1>
+        </div>
+      </a>
+      <nav class="site-nav">
+        <a href="index.html">Home</a>
+        <a href="profile.html" aria-current="page">Profile</a>
+        <a href="matches.html">Matches</a>
+        <a href="saved.html">Saved</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main-content">
+    <div class="container">
+      <h2 class="page-title">Your Profile</h2>
+      <section class="card">
+        <form>
+          <div class="field">
+            <label for="full-name">Full Name</label>
+            <input type="text" id="full-name" name="name" placeholder="E.g. Youtianjie Li">
+          </div>
+          
+          <div class="field">
+            <label for="major">Major / Area of Study</label>
+            <select id="major" name="major">
+              <option value="informatics">Informatics</option>
+              <option value="cs">Computer Science</option>
+              <option value="business">Business</option>
+            </select>
+          </div>
+
+          <fieldset>
+            <legend>Interests & Goals</legend>
+            <div class="check-grid">
+              <label class="inline"><input type="checkbox"> Study Partner</label>
+              <label class="inline"><input type="checkbox"> Carpool</label>
+              <label class="inline"><input type="checkbox"> Mentorship</label>
+              <label class="inline"><input type="checkbox"> Hobby Meetup</label>
+            </div>
+          </fieldset>
+
+          <div class="field" style="margin-top: 20px;">
+            <label for="bio">Short Bio</label>
+            <textarea id="bio" placeholder="Tell potential partners about your schedule and goals..."></textarea>
+          </div>
+
+          <button type="submit">Save Profile</button>
+        </form>
+      </section>
+    </div>
+  </main>
+</body>
+</html>
